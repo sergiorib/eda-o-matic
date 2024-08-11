@@ -1,0 +1,67 @@
+eda.ipynb 
+	- Iniciar o log de execução
+	- Abrir as configurações gerais (config.json) 
+	- Abrir as configurações de )
+	- Abrir as configurações de validações  (eda.xlsx aba validations)
+	- Abrir as configurações de campos analise (eda.xlsx aba field)
+ 
+	- Ler as linhas das configurações de analise. 
+	- Abrir o arquivo 
+		- Fazer checagens de arquivo. 
+	- loop nas linhas do arquivo 
+		checagem de campos 
+			Monta a lista de checagens (baseada na check.config) Rotina especializada)
+			Faz a chamada das checagens.
+			Grava os retorno.  
+	- Gera a saída com os retornos 
+
+- Rotinas importantes 
+	log
+		datetime, location, occurrence, detail, type (info, fail)
+		 
+	load_config	
+	load_ file
+	save_result 
+	field_check_list_creation
+			 
+
+
+
+
+
+
+
+
+
+-- Montagem da lista de checagens do campo. 
+field_check_list_creation. 
+Monta a lista de checagens baseado nas características do campo
+Para cada característica na lista todos as checagens ATIVAS relativas a ela que estão na check.config.
+Como saber quais as checagens ativas pra cada tipo ? 
+R: testar se o nome da característica (ex:number) faz parte da lista do campo "apply_key" da velidation.config, se encontrar inclui a checagem na lista. 
+Caracteristicas 
+- number
+- integer
+- decimal
+- text
+- data
+- pk 
+- fk 
+- null
+- format
+- range
+- values
+Obs: impedir que haja checagens duplicadas. 
+
+	
+
+ 
+
+
+
+
+ 
+			
+			
+		
+	

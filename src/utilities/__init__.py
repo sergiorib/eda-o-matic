@@ -1,0 +1,14 @@
+# ============================================================
+#  File:        __init__.py
+#  Description: eda_o_matic utilities inicialization
+# ============================================================
+
+from .logger import log_event, LOG_FILE, LOG_PATH
+from .utilities import load_config
+from .utilities import load_validations
+from .utilities import load_fields
+from .utilities import init_log
+
+__all__ = ["log_event", "LOG_FILE", "LOG_PATH", "load_config", "load_validations", "load_fields", "init_log"]
+
+print(f"[UTILITIES] Logging session started → {LOG_FILE}")
