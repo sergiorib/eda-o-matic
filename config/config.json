@@ -1,8 +1,9 @@
 {
-    "data_path": "data/raw",
+    "data_path": "\\Users\\User\\OneDrive\\Documentos\\GitHub\\eda-o-matic\\data\\",
     "eda_config_path": "\\Users\\User\\OneDrive\\Documentos\\GitHub\\eda-o-matic\\config\\eda.xlsx",
     "file_format": "csv", 
     "separator": ";", 
+    "encode": "",
     "decimal_separator": ",",
     "date_format": "DD/MM/YYYY", 
     "log_path": "C:\\Users\\User\\OneDrive\\Documentos\\GitHub\\eda-o-matic\\log"

@@ -9,9 +9,6 @@ import json
 # Define o diretório raiz do projeto (o diretório acima de 'src')
 MAIN_PATH = Path(__file__).resolve().parent.parent.parent
 
-print("MAIN_PATH CONFIG")
-print(MAIN_PATH)
-
 # Caminho para o arquivo JSON de configuração (estático)
 CONFIG_JSON_FILE = MAIN_PATH / "config" / "config.json"
 
