@@ -9,6 +9,7 @@ from pathlib import Path
 from src.utilities import logger
 import pandas as pd
 from charset_normalizer import from_path 
+from typing import Union
 
 # Carrega as configurações gerais 
 def load_config(df_config: pd.DataFrame):
@@ -88,12 +89,49 @@ def load_data(df_data: pd.DataFrame, file_path: str, separator: str, encode: str
     except Exception as e:
         raise ValueError(f"Falha no carregamento do arquivo !")
     
+    df_data = df_temp
+
+    '''
     # Limpa o dataframe original e substitui os dados
     df_data.drop(df_data.index, inplace=True)
     for col in df_temp.columns:
         df_data[col] = df_temp[col]
-
+    '''
 
     return df_data
 
+
+def format_file_size(file_size_bytes: Union[int, float]) -> str:
+    """
+    Converte um tamanho de arquivo em bytes para uma string legível 
+    em KB, MB, GB, etc., com duas casas decimais.
+
+    Args:
+        file_size_bytes: O tamanho do arquivo em bytes (int ou float).
+
+    Returns:
+        Uma string formatada (Ex: "858.00 KB", "75.34 MB").
+    """
+    
+    # 1. Caso base: Zero bytes
+    if file_size_bytes == 0:
+        return "0.00 B"
+
+    # 2. Constantes e Unidades (base 1024)
+    TAMANHO_BASE = 1024
+    UNIDADES = ('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
+    
+    # 3. Determinar a unidade correta
+    i = 0
+    tamanho = float(file_size_bytes)
+    
+    # Itera enquanto o tamanho for maior ou igual a 1024
+    # e enquanto houver unidades para avançar
+    while (tamanho >= TAMANHO_BASE) and (i < len(UNIDADES) - 1):
+        tamanho /= TAMANHO_BASE # Divide por 1024 para mudar a unidade
+        i += 1
+        
+    # 4. Formatação do resultado (limitado a duas casas decimais)
+    # Usa f-string com o formato ":.2f" para o float e adiciona a unidade
+    return f"{tamanho:.2f} {UNIDADES[i]}"
 

@@ -4,13 +4,16 @@ eda.ipynb
 	- Abrir as configurações de )
 	- Abrir as configurações de validações  (eda.xlsx aba validations)
 	- Abrir as configurações de campos analise (eda.xlsx aba field)
- 
-	- Ler as linhas das configurações de analise. 
+ 	
+	
+	
+	
+	- Ler as linhas dos campos. 
 	- Abrir o arquivo 
 		- Fazer checagens de arquivo. 
 	- loop nas linhas do arquivo 
 		checagem de campos 
-			Monta a lista de checagens (baseada na check.config) Rotina especializada)
+			Monta a lista de checagens (baseada nas caracteristicas do campo) Rotina especializada)
 			Faz a chamada das checagens.
 			Grava os retorno.  
 	- Gera a saída com os retornos 
