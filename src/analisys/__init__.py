@@ -3,6 +3,7 @@
 #  Description: eda_o_matic analisys inicialization
 # ============================================================
 
-from .validation import check_file_info
+from .validation import check_null_empty
+from .validation import field_apply_list
 
-__all__ = ["check_file_info"]
+__all__ = ["check_null_empty", "field_apply_list"]

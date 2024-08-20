@@ -91,6 +91,8 @@ def load_data(df_data: pd.DataFrame, file_path: str, separator: str, encode: str
     
     df_data = df_temp
 
+    
+
     '''
     # Limpa o dataframe original e substitui os dados
     df_data.drop(df_data.index, inplace=True)
