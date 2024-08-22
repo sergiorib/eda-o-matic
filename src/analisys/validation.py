@@ -97,7 +97,7 @@ def field_apply_list(df_data: DataFrame, df_fields: DataFrame, row: Series) -> T
 
     # Nulos
     if row["null"] == "no": 
-        apply_list.append("null") 
+        apply_list.append("nulo") 
 
     # pk
     if row["pk"] == "yes": 
@@ -106,6 +106,12 @@ def field_apply_list(df_data: DataFrame, df_fields: DataFrame, row: Series) -> T
     # fk
     if row["fk"] == "yes": 
         apply_list.append("fk") 
+
+    if row["zero"] == "no": 
+        apply_list.append("zero") 
+
+    if row["negative"] == "no": 
+        apply_list.append("negative") 
 
     # format
     campo_vazio = pd.isna(row['format']) or (isinstance(row['format'], str) and not row['format'].strip())
@@ -123,3 +129,9 @@ def field_apply_list(df_data: DataFrame, df_fields: DataFrame, row: Series) -> T
         apply_list.append("values")  
 
     return apply_list
+
+def check_zero_negative(df_data: DataFrame, df_fields: DataFrame, row: Series) -> Tuple[str, str, Optional[str]]:
+    pass 
+
+def check_values_list(df_data: DataFrame, df_fields: DataFrame, row: Series) -> Tuple[str, str, Optional[str]]:
+    pass 
