@@ -227,23 +227,10 @@ def check_zero_values(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
         # 4. Cria a Série de Valores de Ruído (Os Não Convertíveis)
         #    Usa o inverso da máscara (~mascara_numerico)
         df_valores_nao_numericos = df_data.loc[~mascara_numerico, field_name]   
-        print("-------- Debug ----------")
-        print(df_data.size) 
-        print(df_valores_numericos.size) 
-        print(df_valores_nao_numericos.size)         
-        print("-------- Debug ----------")
 
-        print("-------- Debug df_valores_numericos----------")
-        print(field_name) 
-        print(df_valores_numericos.dtype) 
-        print("-------- Debug ----------")
         # 3. Aplicação da Máscara (Valores Iguais a Zero)
-        series_alvo = df_valores_numericos
-        print("-------- Debug series_alvo ----------")
-        print(series_alvo.dtype) 
-        print("-------- Debug ----------")        
+        series_alvo = df_valores_numericos  
         if series_alvo.dtype in ['object', 'string']:
-            print("-------- FODEU ! ----------") 
             evidence_msg = "Não foi possivel validar"
             status = "error"
             details = f"ERRO: Coluna '{field_name}' é do tipo {series_alvo.dtype}. Não é ideal para checagem de zero numérico."
@@ -275,7 +262,7 @@ def check_zero_values(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
             )
 
         # Retorno 5 (Garante o retorno normal)
-
+        
         return evidence_msg, status, details   
         
     except Exception as e:
@@ -376,9 +363,6 @@ def check_valid_range(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
         #    Usa o inverso da máscara (~mascara_numerico)
         df_valores_nao_numericos = df_data.loc[~mascara_numerico, field_name]   
 
-
-
-
         # Valida o formato do range 
         # Formato esperado para o range "de x a y", onde x e y são qualquer numero
         regex_formato = r"^de\s*([\d\.,]+)\s*a\s*([\d\.,]+)$"
@@ -409,6 +393,12 @@ def check_valid_range(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
                 status = "Error"
                 return evidence_msg, status, details
 
+        print("----------- DEBUG RANGE -----------")
+        print(field_range_inicio)
+        print(field_range_fim)
+
+        print("----------- DEBUG RANGE -----------")
+
         # 3. Aplicação da Máscara (Valores Iguais a Zero)
         series_alvo = df_valores_numericos
         
@@ -420,8 +410,10 @@ def check_valid_range(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
 
         # 4. Cálculo de Métricas
         mascara_range = (series_alvo >= field_range_inicio) & (series_alvo <= field_range_fim)
+        mascara_range_invertida = ~mascara_range
+
         total_linhas = len(df_valores_numericos)
-        ranges_invalidos_encontrados = mascara_range.sum()
+        ranges_invalidos_encontrados = mascara_range_invertida.sum()
         percentual_ranges_invalidos = (ranges_invalidos_encontrados / total_linhas) * 100 if total_linhas > 0 else 0.00
 
         # 5. Geração de Retorno Padrão
@@ -434,13 +426,23 @@ def check_valid_range(df_data: DataFrame, df_fields: DataFrame, row: Series) -> 
             # 6. Falha: Encontrar o Primeiro Erro
             status = "fail"
             # Buscando o índice do erro (Pode ser o ponto de falha mais comum)
-            primeiro_range_invalido_indice = mascara_range.idxmax()
-            primeiro_range_negativo_valor = df_valores_numericos.loc[primeiro_range_invalido_indice]
-            primeiro_range_invalido_indice += 2 # Corrige o numero do indice
+            primeiro_range_invalido_indice = mascara_range_invertida.idxmax()
+
+            # mascara_range_invalido = ~mascara_range  # O til (~) inverte True para False e vice-versa
+            # if mascara_range_invalido.any():
+            #     primeiro_range_invalido_indice = mascara_range_invalido.idxmax()
+            #     primeiro_range_invalido_valor = df_data.loc[primeiro_range_invalido_indice, field_name] 
+
+            primeiro_range_invalido_valor = df_valores_numericos.loc[primeiro_range_invalido_indice]
+
+            print("----------- DEBUG RANGE primeiro_range_invalido_indice -----------")
+            print(primeiro_range_invalido_indice+2)
+
+            print("----------- DEBUG RANGE primeiro_range_invalido_indice -----------")
 
             details = (
                 f"Linha com exemplo de erro: ({primeiro_range_invalido_indice}): "
-                f"Valor encontrado: {primeiro_range_negativo_valor}"
+                f"Valor encontrado: {primeiro_range_invalido_valor}"
             )
 
         # Retorno 5 (Garante o retorno normal)
